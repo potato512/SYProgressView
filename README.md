@@ -2,9 +2,13 @@
 SYProgressView show the progress while change value.
 
 四种类型的进度视图
+
 1、条形进度
+
 2、环形进度
+
 3、饼形进度
+
 4、水波纹进度
 
 # 效果图
