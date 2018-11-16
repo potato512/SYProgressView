@@ -15,6 +15,8 @@ static CGFloat const originXY = 1.0;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIView *progressView;
 
+@property (nonatomic, assign) CGFloat lastProgress;
+
 @end
 
 @implementation SYLineProgressView
@@ -77,7 +79,14 @@ static CGFloat const originXY = 1.0;
         self.progressView.frame = CGRectMake(origin, origin, width, height);
     }];
     //
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    }
+    self.lastProgress = (self.progress * 100.0);
 }
 
 - (void)initializeProgress

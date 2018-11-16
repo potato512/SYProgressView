@@ -11,6 +11,7 @@
 @interface SYRingProgressView ()
 
 @property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, assign) CGFloat lastProgress;
 
 @end
 
@@ -46,7 +47,9 @@
     // 半径
     CGFloat radius = (MIN(rect.size.width, rect.size.height) - self.lineWidth) * 0.5;
     // 画弧（参数：中心、半径、起始角度(3点钟方向为0)、结束角度、是否顺时针）
-    [path addArcWithCenter:(CGPoint){rect.size.width * 0.5, rect.size.height * 0.5} radius:radius startAngle:M_PI * 1.5 endAngle:M_PI * 1.5 + M_PI * 2 * _progress clockwise:YES];
+    CGFloat startAngle = M_PI * 1.5;
+    CGFloat endAngle = startAngle + M_PI * 2 * _progress;
+    [path addArcWithCenter:(CGPoint){rect.size.width * 0.5, rect.size.height * 0.5} radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
     // 连线
     [path stroke];
 }
@@ -77,7 +80,16 @@
         _progress = 1.0;
     }
     
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    }
+    
+    self.lastProgress = (self.progress * 100.0);
+    
     [self setNeedsDisplay];
 }
 
@@ -85,7 +97,14 @@
 {
     [self bringSubviewToFront:self.label];
     self.label.layer.cornerRadius = self.layer.cornerRadius;
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:0 endValue:0 duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    }
+    
     //
     self.lineView.layer.borderColor = self.lineColor.CGColor;
     self.lineView.layer.borderWidth = self.lineWidth;

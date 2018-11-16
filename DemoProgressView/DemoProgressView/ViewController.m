@@ -63,6 +63,7 @@
     self.lineProgress.defaultColor = [UIColor yellowColor];
     self.lineProgress.label.textColor = [UIColor greenColor];
     self.lineProgress.label.hidden = NO;
+    self.lineProgress.animationText = YES;
     [self.lineProgress initializeProgress];
     
     UIView *currentView = self.lineProgress;
@@ -101,6 +102,7 @@
     self.ringProgress.defaultColor = [UIColor yellowColor];
     self.ringProgress.label.textColor = [UIColor greenColor];
     self.ringProgress.label.hidden = NO;
+    self.ringProgress.reduceAngle = 30;
     [self.ringProgress initializeProgress];
 }
 

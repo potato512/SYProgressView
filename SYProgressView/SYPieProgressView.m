@@ -11,6 +11,7 @@
 @interface SYPieProgressView ()
 
 @property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, assign) CGFloat lastProgress;
 
 @end
 
@@ -33,7 +34,15 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+    }
+    
+    self.lastProgress = (self.progress * 100.0);
     
     CGRect pathRect = rect;
     if (self.showBorderline) {
@@ -97,7 +106,14 @@
 {
     [self bringSubviewToFront:self.label];
     self.label.layer.cornerRadius = self.layer.cornerRadius;
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:0 endValue:0 duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", (value * 100.0)];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    }
+    
     //
     self.lineView.layer.borderColor = self.lineColor.CGColor;
     self.lineView.layer.borderWidth = self.lineWidth;

@@ -28,10 +28,10 @@
 
 #pragma mark - getter
 
-- (UILabel *)label
+- (SYAnimationLabel *)label
 {
     if (_label == nil) {
-        _label = [[UILabel alloc] initWithFrame:self.bounds];
+        _label = [[SYAnimationLabel alloc] initWithFrame:self.bounds];
         [self addSubview:self.label];
         _label.layer.masksToBounds = YES;
         _label.backgroundColor = [UIColor clearColor];

@@ -112,3 +112,16 @@ self.ringProgress.label.hidden = NO;
 // 设置进度
 self.ringProgress.progress = self.progress;
 ```
+
+
+# 修改完善
+* 20181116
+  * 版本号：1.0.1
+  * 新增数值变化的动画效果
+    * 新增UILabel子类 SYAnimationLabel
+    * 新增属性 animationText
+
+* 20181115
+  * 版本号：1.0.0
+  * 新增源码
+

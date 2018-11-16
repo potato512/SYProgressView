@@ -10,6 +10,9 @@
 
 @interface SYRingProgressView : SYProgressView
 
+/// 减少的角度 直接传度数 如30
+@property (nonatomic, assign) CGFloat reduceAngle;
+
 /// 进度（值范围0.0~1.0，默认0.0）
 @property (nonatomic, assign) CGFloat progress;
 

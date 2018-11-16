@@ -20,6 +20,7 @@
 		A7BD1604219CFD4D001A89B4 /* SYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD1603219CFD4D001A89B4 /* SYProgressView.m */; };
 		A7BD1607219D0209001A89B4 /* SYLineProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD1606219D0209001A89B4 /* SYLineProgressView.m */; };
 		A7BD160A219D3B21001A89B4 /* SYWaveProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD1609219D3B21001A89B4 /* SYWaveProgressView.m */; };
+		A7DF4716219E5FDE00E3768C /* SYAnimationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DF4714219E5FDE00E3768C /* SYAnimationLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		A7BD1606219D0209001A89B4 /* SYLineProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYLineProgressView.m; sourceTree = "<group>"; };
 		A7BD1608219D3B21001A89B4 /* SYWaveProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYWaveProgressView.h; sourceTree = "<group>"; };
 		A7BD1609219D3B21001A89B4 /* SYWaveProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYWaveProgressView.m; sourceTree = "<group>"; };
+		A7DF4714219E5FDE00E3768C /* SYAnimationLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAnimationLabel.m; sourceTree = "<group>"; };
+		A7DF4715219E5FDE00E3768C /* SYAnimationLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAnimationLabel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +172,8 @@
 				A7B0BC65219D49ED0025014E /* SYRingProgressView.m */,
 				A7B0BC67219D4A070025014E /* SYPieProgressView.h */,
 				A7B0BC68219D4A070025014E /* SYPieProgressView.m */,
+				A7DF4715219E5FDE00E3768C /* SYAnimationLabel.h */,
+				A7DF4714219E5FDE00E3768C /* SYAnimationLabel.m */,
 			);
 			name = SYProgressView;
 			path = ../../SYProgressView;
@@ -305,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B0BC69219D4A070025014E /* SYPieProgressView.m in Sources */,
+				A7DF4716219E5FDE00E3768C /* SYAnimationLabel.m in Sources */,
 				A7BD15D3219CFBFD001A89B4 /* ViewController.m in Sources */,
 				A7BD15DE219CFBFE001A89B4 /* main.m in Sources */,
 				A7B0BC66219D49ED0025014E /* SYRingProgressView.m in Sources */,

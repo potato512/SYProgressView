@@ -21,6 +21,8 @@
 @property (nonatomic, assign) CGFloat wave_offsetx; /// 偏移
 @property (nonatomic, assign) CGFloat offsety_scale; /// 上升的速度
 
+@property (nonatomic, assign) CGFloat lastProgress;
+
 @end
 
 @implementation SYWaveProgressView
@@ -74,6 +76,7 @@
         [self removeDisplayLinkAction];
     }
     [self setNeedsDisplay];
+    self.lastProgress = (self.progress * 100.0);
 }
 
 - (void)removeDisplayLinkAction
@@ -86,7 +89,13 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+    }
     
     CGRect pathRect = rect;
     if (self.showBorderline) {
@@ -162,7 +171,13 @@
 {
     [self bringSubviewToFront:self.label];
     self.label.layer.cornerRadius = self.layer.cornerRadius;
-    self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    if (self.animationText) {
+        [self.label animationTextStartValue:0 endValue:0 duration:0.3 complete:^(UILabel *label, CGFloat value) {
+            label.text = [NSString stringWithFormat:@"%.0f%%", value];
+        }];
+    } else {
+        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+    }
     
     self.progress = 0.0;
 }
