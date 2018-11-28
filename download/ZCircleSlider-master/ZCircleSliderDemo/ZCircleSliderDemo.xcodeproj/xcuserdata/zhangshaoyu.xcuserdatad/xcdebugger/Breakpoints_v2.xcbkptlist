@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZCircleSliderDemo/ZCircleSlider/ZCircleSlider.m"
+            timestampString = "565086857.689927"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "-setup"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ZCircleSlider setup]"
+                  moduleName = "ZCircleSliderDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangshaoyu/Desktop/zsy/code/demo/Download/ZCircleSlider-master/ZCircleSliderDemo/ZCircleSliderDemo/ZCircleSlider/ZCircleSlider.m"
+                  timestampString = "565062290.923067"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "370">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ZCircleSlider setup]"
+                  moduleName = "ZCircleSliderDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhangshaoyu/Desktop/zsy/code/demo/Download/ZCircleSlider-master/ZCircleSliderDemo/ZCircleSliderDemo/ZCircleSlider/ZCircleSlider.m"
+                  timestampString = "565062290.9246939"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "509">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

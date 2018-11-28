@@ -25,8 +25,11 @@
 /// 字体标签（默认字体黑色/居中显示/隐藏）
 @property (nonatomic, strong) SYAnimationLabel *label;
 
+/// 是否渐变色样式（默认否）
+@property (nonatomic, assign) BOOL showGradient;
+
 /**
- 初始化
+ 初始化（设置属性后，最后调用）
  */
 - (void)initializeProgress;
 

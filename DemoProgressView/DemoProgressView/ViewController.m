@@ -57,13 +57,14 @@
     self.lineProgress = [[SYLineProgressView alloc] initWithFrame:CGRectMake(20.0, 20.0, (self.view.frame.size.width - 40.0), 20)];
     [self.view addSubview:self.lineProgress];
     self.lineProgress.layer.cornerRadius = 10;
-    self.lineProgress.lineWidth = 1.0;
+    self.lineProgress.lineWidth = 2.0;
     self.lineProgress.lineColor = [UIColor redColor];
     self.lineProgress.progressColor = [UIColor redColor];
     self.lineProgress.defaultColor = [UIColor yellowColor];
     self.lineProgress.label.textColor = [UIColor greenColor];
     self.lineProgress.label.hidden = NO;
     self.lineProgress.animationText = YES;
+    self.lineProgress.showGradient = YES;
     [self.lineProgress initializeProgress];
     
     UIView *currentView = self.lineProgress;
