@@ -25,8 +25,15 @@
 /// 字体标签（默认字体黑色/居中显示/隐藏）
 @property (nonatomic, strong) SYAnimationLabel *label;
 
+/// 渐变颜色（默认：黄，红）
+@property (nonatomic, strong) NSArray <UIColor *> *colorsGradient;
 /// 是否渐变色样式（默认否）
 @property (nonatomic, assign) BOOL showGradient;
+
+/// 是否与边框有间距（默认无）
+@property (nonatomic, assign) BOOL showSpace;
+/// 间隔大小（默认0.0）
+@property (nonatomic, assign) CGFloat spaceWidth;
 
 /**
  初始化（设置属性后，最后调用）

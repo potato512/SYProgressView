@@ -23,6 +23,9 @@
 
 @property (nonatomic, assign) CGFloat lastProgress;
 
+@property (nonatomic, strong) CAGradientLayer *gradientlayer; // 渐变层
+@property (nonatomic, strong) CALayer *progresslayer; // 遮罩层
+
 @end
 
 @implementation SYWaveProgressView
@@ -52,6 +55,10 @@
         _offsety_scale = 0.1;
         // 波峰所在位置的y坐标，刚开始的时候_wave_offsety是最大值
        _wave_offsety = (self.frame.size.height + 2 * _wave_amplitude);
+        
+        //
+        self.showGradient = NO;
+        self.colorsGradient = @[[UIColor yellowColor], [UIColor redColor]];
         
         self.backgroundColor = [UIColor clearColor];
         [self addDisplayLinkAction];
@@ -97,23 +104,6 @@
         self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
     }
     
-    CGRect pathRect = rect;
-    if (self.showBorderline) {
-        pathRect = CGRectMake(self.lineWidth, self.lineWidth, (rect.size.width - self.lineWidth * 2), (rect.size.height - self.lineWidth * 2));
-    }
-    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:pathRect];
-    // 背景颜色
-    [self.defaultColor setFill];
-    [path fill];
-    // 边框颜色
-    if (self.showBorderline) {
-        path.lineWidth = self.lineWidth;
-        [self.lineColor setStroke];
-        [path stroke];
-    }
-    //
-    [path addClip];
-    
     // 绘制两个波形图
     [self drawWaveColor:self.progressColor offsetx:0 offsety:0];
     [self drawWaveColor:[self.progressColor colorWithAlphaComponent:0.6] offsetx:self.wave_h_distance offsety:self.wave_v_distance];
@@ -152,6 +142,39 @@
 
 #pragma mark - getter
 
+- (CAGradientLayer *)gradientlayer
+{
+    if (_gradientlayer == nil) {
+        // 创建 CAGradientLayer 对象
+        _gradientlayer = [CAGradientLayer layer];
+        // 设置 gradientLayer 的 Frame
+        _gradientlayer.frame = CGRectMake(self.lineWidth, self.lineWidth, (self.frame.size.width - self.lineWidth * 2), (self.frame.size.height - self.lineWidth * 2));
+        // 创建渐变色数组，需要转换为CGColor颜色
+        //        _gradientlayer.colors = @[(id)[UIColor greenColor].CGColor,
+        //                                 (id)[UIColor blueColor].CGColor
+        //                                 ];
+        //  设置三种颜色变化点，取值范围 0.0~1.0
+        _gradientlayer.locations = @[@(0.0f), @(1.0f)];
+        //  设置渐变颜色方向
+        // gradientLayer.startPoint = CGPointMake(0, 0); // 左上
+        // gradientLayer.endPoint = CGPointMake(0, 1); // 左下
+        // gradientLayer.endPoint = CGPointMake(1, 0); // 右上
+        // gradientLayer.endPoint = CGPointMake(1, 1); // 右下
+        _gradientlayer.startPoint = CGPointMake(0, 0); // 左上
+        _gradientlayer.endPoint = CGPointMake(1, 0); // 左上
+    }
+    return _gradientlayer;
+}
+
+- (CALayer *)progresslayer
+{
+    if (_progresslayer == nil) {
+        _progresslayer = [CALayer layer];
+        _progresslayer.backgroundColor = [UIColor blackColor].CGColor;
+    }
+    return _progresslayer;
+}
+
 #pragma mark - setter
 
 - (void)setProgress:(CGFloat)progress
@@ -169,6 +192,16 @@
 
 - (void)initializeProgress
 {
+    // 背景颜色
+    self.backgroundColor = self.defaultColor;
+    // 边框颜色
+    if (self.showBorderline) {
+        self.layer.borderColor = self.lineColor.CGColor;
+        self.layer.borderWidth = self.lineWidth;
+        self.layer.masksToBounds = YES;
+    }
+    
+    //
     [self bringSubviewToFront:self.label];
     self.label.layer.cornerRadius = self.layer.cornerRadius;
     if (self.animationText) {

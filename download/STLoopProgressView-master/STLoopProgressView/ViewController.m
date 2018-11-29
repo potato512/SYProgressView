@@ -23,7 +23,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     //
-    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(20, 40, 200, 200)];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(20, 60, 300, 300)];
     [self.view addSubview:myView];
     
     //  创建 CAGradientLayer 对象
@@ -41,20 +41,25 @@
 //    gradientLayer.endPoint = CGPointMake(0, 1); // 左下
 //    gradientLayer.endPoint = CGPointMake(1, 0); // 右上
 //    gradientLayer.endPoint = CGPointMake(1, 1); // 右下
-    gradientLayer.startPoint = CGPointMake(0, 1); // 左上
-    gradientLayer.endPoint = CGPointMake(1, 0); // 左上
-    
-    //
-    CAShapeLayer *progresslayer = [CAShapeLayer layer];
-    progresslayer.frame = myView.bounds;
-    progresslayer.lineWidth = 30;
-    progresslayer.fillColor = [UIColor clearColor].CGColor;
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:myView.bounds];
-    progresslayer.path = path.CGPath;
-    
+//    gradientLayer.startPoint = CGPointMake(0, 0); // 左上
+//    gradientLayer.endPoint = CGPointMake(1, 0); // 左上
+    gradientLayer.startPoint = CGPointMake(0.0, 0.5); // 左上
+    gradientLayer.endPoint = CGPointMake(0.5, 1.0); // 左上
+    // 1
+//    CAShapeLayer *progresslayer = [CAShapeLayer layer];
+//    progresslayer.frame = myView.bounds;
+////    progresslayer.lineWidth = 30;
+//    progresslayer.fillColor = [UIColor clearColor].CGColor;
+////    UIBezierPath *path = [UIBezierPath bezierPathWithRect:myView.bounds];
+////    progresslayer.path = path.CGPath;
+    // 2
+    CALayer *progresslayer = [CALayer layer];
+    progresslayer.frame = CGRectMake(0.0, 0.0, 300, 300);
+    progresslayer.backgroundColor = [UIColor greenColor].CGColor;
     //  添加渐变色到创建的 UIView 上去
     gradientLayer.mask = progresslayer;
     [myView.layer addSublayer:gradientLayer];
+
     
     //
     self.loopProgressView.persentage = 0.0;

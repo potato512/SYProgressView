@@ -10,7 +10,6 @@
 
 @interface SYPieProgressView ()
 
-@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, assign) CGFloat lastProgress;
 
 @end
@@ -25,9 +24,10 @@
         CGRect rect = self.frame;
         rect.size = CGSizeMake(size, size);
         self.frame = rect;
-        
         self.backgroundColor = [UIColor clearColor];
-        self.lineView.frame = self.bounds;
+        //
+        self.showSpace = NO;
+        self.spaceWidth = 0.0;
     }
     return self;
 }
@@ -49,43 +49,33 @@
         pathRect = CGRectMake(self.lineWidth, self.lineWidth, (rect.size.width - self.lineWidth * 2), (rect.size.height - self.lineWidth * 2));
     }
     UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:pathRect];
-    // 背景颜色
-    [self.progressColor setFill];
+    [self.progressColor setFill]; // 背景颜色
     [path fill];
-    //
     [path addClip];
     //
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGFloat xCenter = rect.size.width * 0.5;
     CGFloat yCenter = rect.size.height * 0.5;
-    CGFloat radius = MIN(pathRect.size.width, pathRect.size.height) * 0.5 - self.lineWidth;
+    CGFloat radius = MIN(pathRect.size.width, pathRect.size.height) * 0.5 - (self.showSpace ? self.spaceWidth : 0.0);
     // 进度
     [self.defaultColor set];
     if (self.progress >= 1.0) {
         [self.progressColor set];
     }
     // 进程圆
-    CGContextSetLineWidth(context, self.lineWidth);
+    [CATransaction begin];
+    [CATransaction setDisableActions:NO];
+    CGContextSetLineWidth(context, (self.showSpace ? self.spaceWidth : 0.0));
     CGContextMoveToPoint(context, xCenter, yCenter);
     CGContextAddLineToPoint(context, xCenter, 0);
     CGFloat endAngle = -M_PI * 0.5 + self.progress * M_PI * 2 + 0.001;
     CGContextAddArc(context, xCenter, yCenter, radius, -M_PI * 0.5, endAngle, 1);
     CGContextFillPath(context);
+    [CATransaction commit];
+    
 }
 
 #pragma mark - getter
-
-- (UIView *)lineView
-{
-    if (_lineView == nil) {
-        _lineView = [[UIView alloc] init];
-        [self addSubview:_lineView];
-        _lineView.layer.borderColor = self.lineColor.CGColor;
-        _lineView.layer.borderWidth = self.lineWidth;
-        _lineView.layer.masksToBounds = YES;
-    }
-    return _lineView;
-}
 
 #pragma mark - setter
 
@@ -98,12 +88,21 @@
     if (_progress > 1.0) {
         _progress = 1.0;
     }
-    
     [self setNeedsDisplay];
 }
 
 - (void)initializeProgress
 {
+    // 背景及圆角
+    self.layer.cornerRadius = MIN(self.frame.size.width, self.frame.size.height) / 2;
+    self.layer.masksToBounds = YES;
+    self.backgroundColor = self.defaultColor;
+    // 边框颜色
+    if (self.showBorderline) {
+        self.layer.borderColor = self.lineColor.CGColor;
+        self.layer.borderWidth = self.lineWidth;
+    }
+    //
     [self bringSubviewToFront:self.label];
     self.label.layer.cornerRadius = self.layer.cornerRadius;
     if (self.animationText) {
@@ -113,12 +112,6 @@
     } else {
         self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
     }
-    
-    //
-    self.lineView.layer.borderColor = self.lineColor.CGColor;
-    self.lineView.layer.borderWidth = self.lineWidth;
-    self.lineView.layer.cornerRadius = self.frame.size.width / 2;
-    [self sendSubviewToBack:self.lineView];
     
     self.progress = 0.0;
 }
