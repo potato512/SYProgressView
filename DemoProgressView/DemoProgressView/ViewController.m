@@ -91,6 +91,7 @@
     
     self.pieProgress = [[SYPieProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
     [self.view addSubview:self.pieProgress];
+    self.pieProgress.backgroundColor = [UIColor greenColor];
     self.pieProgress.lineColor = [UIColor purpleColor];
     self.pieProgress.lineWidth = 5.0;
     self.pieProgress.progressColor = [UIColor redColor];
@@ -106,8 +107,9 @@
     
     self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
     [self.view addSubview:self.ringProgress];
+    self.ringProgress.backgroundColor = [UIColor clearColor];
     self.ringProgress.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
-    self.ringProgress.lineWidth = 10.0;
+    self.ringProgress.lineWidth = 10;
     self.ringProgress.progressColor = [UIColor redColor];
     self.ringProgress.defaultColor = [UIColor yellowColor];
     self.ringProgress.label.textColor = [UIColor greenColor];

@@ -15,6 +15,7 @@
 		96B15EB31D0CFA2800DB319D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96B15EB11D0CFA2800DB319D /* LaunchScreen.storyboard */; };
 		96B15EBF1D0CFA5200DB319D /* STLoopProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B15EBC1D0CFA5200DB319D /* STLoopProgressView.m */; };
 		96B15EC01D0CFA5200DB319D /* STLoopProgressView+BaseConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B15EBE1D0CFA5200DB319D /* STLoopProgressView+BaseConfiguration.m */; };
+		A737D44D21B1065500097424 /* ColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A737D44C21B1065500097424 /* ColorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		96B15EBC1D0CFA5200DB319D /* STLoopProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLoopProgressView.m; sourceTree = "<group>"; };
 		96B15EBD1D0CFA5200DB319D /* STLoopProgressView+BaseConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STLoopProgressView+BaseConfiguration.h"; sourceTree = "<group>"; };
 		96B15EBE1D0CFA5200DB319D /* STLoopProgressView+BaseConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STLoopProgressView+BaseConfiguration.m"; sourceTree = "<group>"; };
+		A737D44B21B1065500097424 /* ColorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorView.h; sourceTree = "<group>"; };
+		A737D44C21B1065500097424 /* ColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,8 @@
 				96B15EA71D0CFA2800DB319D /* AppDelegate.m */,
 				96B15EA91D0CFA2800DB319D /* ViewController.h */,
 				96B15EAA1D0CFA2800DB319D /* ViewController.m */,
+				A737D44B21B1065500097424 /* ColorView.h */,
+				A737D44C21B1065500097424 /* ColorView.m */,
 				96B15EAC1D0CFA2800DB319D /* Main.storyboard */,
 				96B15EAF1D0CFA2800DB319D /* Assets.xcassets */,
 				96B15EB11D0CFA2800DB319D /* LaunchScreen.storyboard */,
@@ -169,6 +174,7 @@
 			files = (
 				96B15EAB1D0CFA2800DB319D /* ViewController.m in Sources */,
 				96B15EBF1D0CFA5200DB319D /* STLoopProgressView.m in Sources */,
+				A737D44D21B1065500097424 /* ColorView.m in Sources */,
 				96B15EC01D0CFA5200DB319D /* STLoopProgressView+BaseConfiguration.m in Sources */,
 				96B15EA81D0CFA2800DB319D /* AppDelegate.m in Sources */,
 				96B15EA51D0CFA2800DB319D /* main.m in Sources */,
@@ -320,6 +326,7 @@
 				96B15EB91D0CFA2800DB319D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

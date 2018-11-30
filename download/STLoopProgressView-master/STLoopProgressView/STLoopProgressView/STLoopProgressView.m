@@ -52,33 +52,33 @@
     self.colorLayer.frame = self.bounds;
     [self.layer addSublayer:self.colorLayer];
 
-//    CAGradientLayer *leftLayer = [CAGradientLayer layer];
-////    leftLayer.frame = CGRectMake(0, 0, SELF_WIDTH / 2, SELF_HEIGHT);
-//    leftLayer.frame = CGRectMake(0, 0, SELF_WIDTH, SELF_HEIGHT);
-//    // 分段设置渐变色
-////    leftLayer.locations = @[@0.3, @0.9, @1];
-////    leftLayer.colors = @[(id)[STLoopProgressView centerColor].CGColor, (id)[STLoopProgressView startColor].CGColor];
-//    leftLayer.locations = @[@0.0, @1.0];
-//    leftLayer.colors = @[(id)[UIColor redColor].CGColor, (id)[UIColor yellowColor].CGColor];
-//    [self.colorLayer addSublayer:leftLayer];
+    CAGradientLayer *leftLayer = [CAGradientLayer layer];
+//    leftLayer.frame = CGRectMake(0, 0, SELF_WIDTH / 2, SELF_HEIGHT);
+    leftLayer.frame = CGRectMake(0, 0, SELF_WIDTH, SELF_HEIGHT);
+    // 分段设置渐变色
+//    leftLayer.locations = @[@0.3, @0.9, @1];
+//    leftLayer.colors = @[(id)[STLoopProgressView centerColor].CGColor, (id)[STLoopProgressView startColor].CGColor];
+    leftLayer.locations = @[@0.0, @0.5, @1.0];
+    leftLayer.colors = @[(id)[[UIColor redColor] colorWithAlphaComponent:0.5].CGColor, (id)[UIColor yellowColor].CGColor];
+    [self.colorLayer addSublayer:leftLayer];
     
-//    CAGradientLayer *rightLayer = [CAGradientLayer layer];
-//    rightLayer.frame = CGRectMake(SELF_WIDTH / 2, 0, SELF_WIDTH / 2, SELF_HEIGHT);
-////    rightLayer.locations = @[@0.3, @0.9, @1];
-////    rightLayer.colors = @[(id)[STLoopProgressView centerColor].CGColor, (id)[STLoopProgressView endColor].CGColor];
-//    rightLayer.locations = @[@0.0, @0.5, @1.0];
-//    rightLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
-//    [self.colorLayer addSublayer:rightLayer];
+    CAGradientLayer *rightLayer = [CAGradientLayer layer];
+    rightLayer.frame = CGRectMake(SELF_WIDTH / 2, 0, SELF_WIDTH / 2, SELF_HEIGHT);
+//    rightLayer.locations = @[@0.3, @0.9, @1];
+//    rightLayer.colors = @[(id)[STLoopProgressView centerColor].CGColor, (id)[STLoopProgressView endColor].CGColor];
+    rightLayer.locations = @[@0.5, @1.0];
+    rightLayer.colors = @[(id)[[UIColor redColor] colorWithAlphaComponent:0.5].CGColor, (id)[UIColor redColor].CGColor];
+    [self.colorLayer addSublayer:rightLayer];
     
     //
-    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    //  设置 gradientLayer 的 Frame
-    gradientLayer.frame = self.colorLayer.bounds;
-    gradientLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
-    gradientLayer.locations = @[@(0.0f), @(1.0f)];
-    gradientLayer.startPoint = CGPointMake(0, 1); // 左上
-    gradientLayer.endPoint = CGPointMake(1, 0); // 左上
-    [self.colorLayer addSublayer:gradientLayer];
+//    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+//    //  设置 gradientLayer 的 Frame
+//    gradientLayer.frame = self.colorLayer.bounds;
+//    gradientLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
+//    gradientLayer.locations = @[@(0.0f), @(1.0f)];
+//    gradientLayer.startPoint = CGPointMake(0, 1); // 左上
+//    gradientLayer.endPoint = CGPointMake(1, 0); // 左上
+//    [self.colorLayer addSublayer:gradientLayer];
 }
 
 /**
