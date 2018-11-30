@@ -25,7 +25,8 @@
 
 @property (nonatomic, strong) UILabel *label; // 进度显示
 
-@property (nonatomic, strong) CAShapeLayer *maskLayer; // 遮罩层
+@property (nonatomic, strong) CAShapeLayer *maskLayer; // 渐变遮罩层
+@property (nonatomic, strong) CALayer *gradientLayer;// 渐变层
 
 @end
 
@@ -118,12 +119,25 @@
 - (CAShapeLayer *)maskLayer
 {
     if (_maskLayer == nil) {
-        _maskLayer = [[CAShapeLayer alloc] init];
-        _maskLayer.frame = self.bounds;
+        _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillColor = [UIColor clearColor].CGColor;
+        _maskLayer.strokeColor = [UIColor whiteColor].CGColor;
         _maskLayer.lineWidth = self.circleBorderWidth;
+        _maskLayer.strokeStart = 0;
+        _maskLayer.strokeEnd = 1;
+        _maskLayer.lineCap = kCAFillRuleNonZero;
     }
     return _maskLayer;
+}
+
+- (CALayer *)gradientLayer
+{
+    if (_gradientLayer == nil) {
+        _gradientLayer = [CALayer layer];
+        _gradientLayer.frame = self.bounds;
+        _gradientLayer.backgroundColor = [UIColor clearColor].CGColor;
+    }
+    return _gradientLayer;
 }
 
 #pragma mark - setter
@@ -209,7 +223,7 @@
 #pragma mark - drwRect
 
 - (void)drawRect:(CGRect)rect
-{
+{    
     self.drawCenter = CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0);
     self.radius = self.circleRadius;
     self.circleStartPoint = CGPointMake(self.drawCenter.x, self.drawCenter.y - self.circleRadius);
@@ -236,46 +250,58 @@
     CGContextDrawPath(ctx, kCGPathStroke);
     CGContextRestoreGState(ctx);
     
-    //起始位置做圆滑处理
-    CGContextSaveGState(ctx);
-    CGContextSetShouldAntialias(ctx, YES);
-    CGContextSetFillColorWithColor(ctx, self.minimumTrackTintColor.CGColor);
-    CGContextAddArc(ctx, self.circleStartPoint.x, self.circleStartPoint.y, self.circleBorderWidth / 2.0, 0, M_PI * 2, 0);
-    CGContextDrawPath(ctx, kCGPathFill);
-    CGContextRestoreGState(ctx);
-    
-    //value
+    // 渐变色
     if (self.showGradient) {
-        UIBezierPath *circlePath = [UIBezierPath bezierPath];
-        CGFloat originstart = -M_PI_2;
-        CGFloat currentOrigin = originstart + 2 * M_PI * self.value;
-        [circlePath addArcWithCenter:self.drawCenter radius:self.radius startAngle:originstart endAngle:currentOrigin clockwise:YES];
-//        CGContextSaveGState(ctx);
-//        CGContextSetShouldAntialias(ctx, YES);
-//        CGContextSetLineWidth(ctx, self.circleBorderWidth);
-//        CGContextSetStrokeColorWithColor(ctx, self.minimumTrackTintColor.CGColor);
-//        CGContextAddPath(ctx, circlePath.CGPath);
-//        CGContextDrawPath(ctx, kCGPathStroke);
-//        CGContextRestoreGState(ctx);
-        // 遮罩层
-        self.maskLayer.path = circlePath.CGPath;
-        self.maskLayer.strokeColor = self.minimumTrackTintColor.CGColor;
-        // 渐变层
-        CALayer *grain = [CALayer layer];
-        [grain setMask:self.maskLayer];
-        // 左侧渐变色
-        CAGradientLayer *leftLayer = [CAGradientLayer layer];
-        leftLayer.frame = CGRectMake(0, 0, self.bounds.size.width / 2, self.bounds.size.height);  // 分段设置渐变色
-        leftLayer.locations = @[@0.3, @0.9, @1];
-        leftLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor greenColor].CGColor];
-        [grain addSublayer:leftLayer];
-        // 右侧渐变色
-        CAGradientLayer *rightLayer = [CAGradientLayer layer];
-        rightLayer.frame = CGRectMake(self.bounds.size.width / 2, 0, self.bounds.size.width / 2, self.bounds.size.height);
-        rightLayer.locations = @[@0.3, @0.9, @1];
-        rightLayer.colors = @[(id)[UIColor yellowColor].CGColor, (id)[UIColor redColor].CGColor];
-        [grain addSublayer:rightLayer];
+        // 渐变颜色
+        UIColor *colorlight = self.colorsGradient.firstObject;//浅
+        UIColor *colorDark = self.colorsGradient.lastObject;//深
+        UIColor *colorMiddle = [colorDark colorWithAlphaComponent:0.5];//中
+        if (self.colorsGradient.count > 2) {
+            colorMiddle = self.colorsGradient[1];//中
+        }
+        // 起始位置做圆滑处理
+        CGContextSaveGState(ctx);
+        CGContextSetShouldAntialias(ctx, YES);
+        CGContextSetFillColorWithColor(ctx, colorlight.CGColor);
+        CGContextAddArc(ctx, self.circleStartPoint.x, self.circleStartPoint.y, self.circleBorderWidth / 2.0, 0, M_PI * 2, 0);
+        CGContextDrawPath(ctx, kCGPathFill);
+        CGContextRestoreGState(ctx);
+        
+        // 创建圆环
+        CGFloat loadStart = -M_PI_2;
+        CGFloat loadCurre = loadStart + 2 * M_PI * self.value;
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.drawCenter.x, self.drawCenter.y) radius:self.radius startAngle:loadStart endAngle:loadCurre clockwise:YES];
+        // 圆环遮罩
+        self.maskLayer.path = bezierPath.CGPath;
+        // 颜色渐变层
+        CAGradientLayer *colorlayDark = [CAGradientLayer layer];
+        colorlayDark.shadowPath = bezierPath.CGPath;
+        colorlayDark.frame = CGRectMake(self.drawCenter.x - self.circleRadius - self.circleBorderWidth / 2, self.drawCenter.y -self.circleRadius - self.circleBorderWidth / 2, self.circleRadius + self.circleBorderWidth / 2, 2 * self.circleRadius + self.circleBorderWidth);
+        colorlayDark.startPoint = CGPointMake(0, 1);
+        colorlayDark.endPoint = CGPointMake(0, 0);
+        colorlayDark.colors = @[(id)colorMiddle.CGColor, (id)colorDark.CGColor];
+        [self.gradientLayer addSublayer:colorlayDark];
+        //
+        CAGradientLayer *colorlayLight = [CAGradientLayer layer];
+        colorlayLight.shadowPath = bezierPath.CGPath;
+        colorlayLight.frame = CGRectMake(self.drawCenter.x, self.drawCenter.y - self.circleRadius - self.circleBorderWidth / 2, self.circleRadius + self.circleBorderWidth / 2, 2 * self.circleRadius + self.circleBorderWidth);
+        colorlayLight.startPoint = CGPointMake(0, 1);
+        colorlayLight.endPoint = CGPointMake(0, 0);
+        colorlayLight.colors = @[(id)colorMiddle.CGColor,(id)colorlight.CGColor];
+        [self.gradientLayer addSublayer:colorlayLight];
+        //
+        self.gradientLayer.mask = self.maskLayer;
+        [self.layer addSublayer:self.gradientLayer];
+        [self bringSubviewToFront:self.thumbView];
     } else {
+        // 起始位置做圆滑处理
+        CGContextSaveGState(ctx);
+        CGContextSetShouldAntialias(ctx, YES);
+        CGContextSetFillColorWithColor(ctx, self.minimumTrackTintColor.CGColor);
+        CGContextAddArc(ctx, self.circleStartPoint.x, self.circleStartPoint.y, self.circleBorderWidth / 2.0, 0, M_PI * 2, 0);
+        CGContextDrawPath(ctx, kCGPathFill);
+        CGContextRestoreGState(ctx);
+        //
         UIBezierPath *circlePath = [UIBezierPath bezierPath];
         CGFloat originstart = -M_PI_2;
         CGFloat currentOrigin = originstart + 2 * M_PI * self.value;
@@ -442,17 +468,17 @@
             if (self.lockClockwise) {
                 NSLog(@"value = %f, lockClockwise = %d, lockAntiClockwise = %d moveX = %f, moveY = %f, centerX = %f, centerY = %f", self.value, self.lockClockwise, self.lockAntiClockwise, moveX, moveY, centerX, centerY);
                 // 不能移动到第一象限
-                if (moveX >= centerX && moveY <= centerY) {
-                    return;
-                }
+//                if (moveX >= centerX && moveY <= centerY) {
+//                    return;
+//                }
             }
             
             if (self.lockAntiClockwise) {
                 // 不能移动到第二象限
                 NSLog(@"value = %f, lockClockwise = %d, lockAntiClockwise = %d moveX = %f, moveY = %f, centerX = %f, centerY = %f", self.value, self.lockClockwise, self.lockAntiClockwise, moveX, moveY, centerX, centerY);
-                if (moveX <= centerX && moveY <= centerY) {
-                    return;
-                }
+//                if (moveX <= centerX && moveY <= centerY) {
+//                    return;
+//                }
             }
         } else {
             // 不允许逆时针

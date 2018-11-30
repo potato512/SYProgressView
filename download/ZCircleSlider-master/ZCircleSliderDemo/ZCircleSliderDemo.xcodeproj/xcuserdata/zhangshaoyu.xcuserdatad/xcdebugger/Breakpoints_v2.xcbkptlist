@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZCircleSliderDemo/ZCircleSlider/ZCircleSlider.m"
-            timestampString = "565177515.987391"
+            timestampString = "565265944.614037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "-setup"
             landmarkType = "7">
             <Locations>
