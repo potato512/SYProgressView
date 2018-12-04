@@ -127,7 +127,7 @@
     circleSlider4.canRepeat = NO;
     circleSlider4.canCounterClockWise = NO;
     circleSlider4.showGradient = YES;
-    circleSlider4.colorsGradient = @[[UIColor yellowColor], [UIColor redColor]];
+    circleSlider4.colorsGradient = @[[UIColor whiteColor], [UIColor yellowColor], [UIColor redColor]];
     
     currentView = circleSlider4;
     
