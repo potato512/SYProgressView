@@ -17,7 +17,7 @@ SYProgressView show the progress while change value.
 
 
 # 使用介绍
-* 自动导入：使用命令pod `SYProgressView` 导入到项目中
+* 自动导入：使用命令`pod 'SYProgressView'`导入到项目中
 * 手动导入：或下载源码后，将源码添加到项目中
 
 # 代码示例
@@ -106,9 +106,12 @@ self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(20.0, 2
 self.ringProgress.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
 self.ringProgress.lineWidth = 20.0;
 self.ringProgress.progressColor = [UIColor redColor];
-self.ringProgress.defaultColor = [UIColor yellowColor];
-self.ringProgress.label.textColor = [UIColor greenColor];
-self.ringProgress.label.hidden = NO;
+self.ringProgress.lineRound = YES;
+self.ringProgress.colorsGradient = @[UIColor.brownColor, UIColor.whiteColor];
+self.ringProgress.showGradient = YES;
+self.ringProgress.isClockwise = NO;
+self.ringProgress.startAngle = -90.0;
+self.ringProgress.endAngle = 360.0;
 
 // 初始化
 [self.ringProgress initializeProgress];
@@ -119,7 +122,7 @@ self.ringProgress.progress = self.progress;
 
 
 # 修改完善
-* 20181129
+* 20181129 20190321
   * 版本号：1.1.0
   * 新增属性
     * 是否显示间隔

@@ -10,8 +10,16 @@
 
 @interface SYRingProgressView : SYProgressView
 
-/// 减少的角度（暂无效果；直接传度数 如30）
-@property (nonatomic, assign) CGFloat reduceAngle;
+/*
+ defaultColor属性无效
+ */
+
+/// 起始点（角度-360.0~360.0，默认-90.0）
+@property (nonatomic, assign) CGFloat startAngle;
+/// 结束点（角度-360.0~360.0，默认360.0）
+@property (nonatomic, assign) CGFloat endAngle;
+/// 是否顺时针（默认YES顺序针）
+@property (nonatomic, assign) BOOL isClockwise;
 
 /// 进度（值范围0.0~1.0，默认0.0）
 @property (nonatomic, assign) CGFloat progress;

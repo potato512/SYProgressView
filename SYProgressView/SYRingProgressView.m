@@ -8,12 +8,15 @@
 
 #import "SYRingProgressView.h"
 
+// 将角度转为弧度
+#define kDegreesToRadoans(degress) (M_PI * (degress) / 180.0)
+
 @interface SYRingProgressView ()
 
-@property (nonatomic, strong) UIView *lineView;
-@property (nonatomic, assign) CGFloat lastProgress;
-
-@property (nonatomic, strong) UIColor *cicleBgColor;
+//
+@property (nonatomic, strong) UIView *ringView;
+@property (nonatomic, strong) CAGradientLayer *colorLayer; // 进度
+@property (nonatomic, strong) CAShapeLayer *maskLayer; // 遮罩
 
 @end
 
@@ -28,126 +31,127 @@
         rect.size = CGSizeMake(size, size);
         self.frame = rect;
         //
-        self.backgroundColor = [UIColor clearColor];
-        self.lineView.frame = self.bounds;
+        self.backgroundColor = UIColor.lightGrayColor;
         //
-        self.lineRound = NO;
-        //
-        [self addObserver:self
-               forKeyPath:@"angle"
-                  options:NSKeyValueObservingOptionNew
-                  context:nil];
+        self.isClockwise = YES;
+        self.startAngle = -90.0;
+        self.endAngle = 360.0;
     }
     
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    // 路径
-    UIBezierPath *path = [[UIBezierPath alloc] init];
-    // 线宽
-    path.lineWidth = self.lineWidth;
-    // 颜色
-    [self.progressColor set];
-    // 拐角
-    if (self.lineRound) {
-        path.lineCapStyle = kCGLineCapRound;
-        path.lineJoinStyle = kCGLineJoinRound;
-    }
-    // 半径
-    CGFloat radius = (MIN(rect.size.width, rect.size.height) - self.lineWidth) * 0.5;
-    // 画弧（参数：中心、半径、起始角度(3点钟方向为0)、结束角度、是否顺时针）
-    CGFloat startAngle = M_PI * 1.5;
-    CGFloat endAngle = startAngle + M_PI * 2 * self.progress;
-    [path addArcWithCenter:(CGPoint){rect.size.width * 0.5, rect.size.height * 0.5} radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-    // 连线
-    [path stroke];
-    
-    //
-    if (self.cicleBgColor && ![self.cicleBgColor isEqual:[UIColor clearColor]]) {
-        UIBezierPath *pathCircle = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(self.lineWidth, self.lineWidth, (self.frame.size.width - self.lineWidth * 2), (self.frame.size.height - self.lineWidth * 2)) cornerRadius:self.layer.cornerRadius];
-        [self.cicleBgColor set];
-        [pathCircle stroke];
-        [pathCircle fill];
-    }
-}
-
 #pragma mark - getter
 
-- (UIView *)lineView
+- (UIView *)ringView
 {
-    if (_lineView == nil) {
-        _lineView = [[UIView alloc] init];
-        [self addSubview:_lineView];
-        _lineView.layer.borderColor = self.lineColor.CGColor;
-        _lineView.layer.borderWidth = self.lineWidth;
-        _lineView.layer.masksToBounds = YES;
+    if (_ringView == nil) {
+        _ringView = [[UIView alloc] initWithFrame:self.bounds];
+        [self addSubview:_ringView];
     }
-    return _lineView;
+    return _ringView;
+}
+
+- (CAGradientLayer *)colorLayer
+{
+    if (_colorLayer == nil) {
+        _colorLayer = [CAGradientLayer layer];
+        _colorLayer.frame = self.ringView.bounds;
+        //
+        _colorLayer.colors = @[(id)UIColor.yellowColor.CGColor,
+                               (id)UIColor.redColor.CGColor];
+        //
+        _colorLayer.startPoint = CGPointMake(0, 0);
+        _colorLayer.endPoint = CGPointMake(1, 0);
+        _colorLayer.locations = @[@(0.0), @(1.0)];// @[@0.1, @0.6];
+    }
+    return _colorLayer;
+}
+
+- (CAShapeLayer *)maskLayer
+{
+    if (_maskLayer == nil) {
+        _maskLayer = [self generateMaskLayer];
+    }
+    return _maskLayer;
 }
 
 #pragma mark - setter
 
+
 - (void)setProgress:(CGFloat)progress
 {
     _progress = progress;
-    if (_progress < 0.0) {
-        _progress = 0.0;
-    }
-    if (_progress > 1.0) {
-        _progress = 1.0;
-    }
-    
-    if (self.animationText) {
-        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
-            label.text = [NSString stringWithFormat:@"%.0f%%", value];
-        }];
+    //
+    if (self.isAnimation) {
+        [CATransaction begin];
+        [CATransaction setDisableActions:NO];
+        [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [CATransaction setAnimationDuration:0.03];
+        self.maskLayer.strokeEnd = _progress;
+        [CATransaction commit];
     } else {
-        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
+        self.maskLayer.strokeEnd = _progress;
     }
     
-    self.lastProgress = (self.progress * 100.0);
-    
-    [self setNeedsDisplay];
 }
 
-#pragma mark - methord
+#pragma mark - 方法
+
+/**
+ 创建圆环，适合做蒙层，也适合画纯色图形
+ 
+ @return CAShapeLayer
+ */
+- (CAShapeLayer *)generateMaskLayer
+{
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.frame = self.ringView.bounds;
+    layer.fillColor = [UIColor clearColor].CGColor;
+    layer.strokeColor = [UIColor blackColor].CGColor;
+    //
+    layer.lineWidth = self.lineWidth;
+    if (self.lineRound) {
+        layer.lineCap = kCALineCapRound;
+    }
+    // kDegreesToRadoans(self.startAngle) kDegreesToRadoans(self.endAngle)
+//    UIBezierPath *paths = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.ringView.frame.size.width / 2), (self.ringView.frame.size.height / 2)) radius:(self.ringView.frame.size.width / 2.5) startAngle:kDegreesToRadoans(-220) endAngle:kDegreesToRadoans(40) clockwise:YES];
+    UIBezierPath *paths = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.ringView.frame.size.width / 2), (self.ringView.frame.size.height / 2)) radius:(self.ringView.frame.size.width / 2.5) startAngle:kDegreesToRadoans(self.startAngle) endAngle:kDegreesToRadoans(self.endAngle) clockwise:self.isClockwise];
+    layer.path = paths.CGPath;
+    
+    return layer;
+}
+
+- (void)generateProgressColor
+{
+    if (self.colorsGradient && self.showGradient) {
+        if (self.colorsGradient.count <= 0) {
+            return;
+        }
+        NSMutableArray *colors = [[NSMutableArray alloc] init];
+        [self.colorsGradient enumerateObjectsUsingBlock:^(UIColor * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [colors addObject:(id)obj.CGColor];
+        }];
+        self.colorLayer.colors = colors;
+    } else {
+        self.colorLayer.colors = @[(id)self.progressColor.CGColor, (id)self.progressColor.CGColor];
+    }
+}
 
 - (void)initializeProgress
 {
-    // 路径
-    UIBezierPath *path = [[UIBezierPath alloc] init];
-    path.lineWidth = self.lineWidth;
-    [self.defaultColor set];
-    CGFloat radius = (MIN(self.bounds.size.width, self.bounds.size.height) - self.lineWidth) * 0.5;
-    // 画弧（参数：中心、半径、起始角度(3点钟方向为0)、结束角度、是否顺时针）
-    CGFloat startAngle = M_PI * 1.5;
-    CGFloat endAngle = startAngle + M_PI * 2;
-    [path addArcWithCenter:(CGPoint){self.bounds.size.width * 0.5, self.bounds.size.height * 0.5} radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-    [path stroke];
+    self.label.hidden = YES;
     //
-    self.layer.cornerRadius = MIN(self.frame.size.width, self.frame.size.height) / 2;
-    self.layer.masksToBounds = YES;
-    self.cicleBgColor = self.backgroundColor;
-    self.backgroundColor = [UIColor clearColor];
+    [self.ringView.layer addSublayer:self.colorLayer];
+    self.colorLayer.mask = self.maskLayer;
+    // view的layer添加蒙层mask
+    CAShapeLayer *layer = [self generateMaskLayer];
+    [self.ringView.layer addSublayer:layer];
+    self.ringView.layer.mask = layer;
+    [self generateProgressColor];
     //
-    [self bringSubviewToFront:self.label];
-    self.label.layer.cornerRadius = self.layer.cornerRadius;
-    if (self.animationText) {
-        [self.label animationTextStartValue:0 endValue:0 duration:0.3 complete:^(UILabel *label, CGFloat value) {
-            label.text = [NSString stringWithFormat:@"%.0f%%", value];
-        }];
-    } else {
-        self.label.text = [NSString stringWithFormat:@"%.0f%%", (_progress * 100.0)];
-    }
-    //
-    self.lineView.layer.borderColor = self.lineColor.CGColor;
-    self.lineView.layer.borderWidth = self.lineWidth;
-    self.lineView.layer.cornerRadius = self.frame.size.width / 2;
-    [self sendSubviewToBack:self.lineView];
-    
-    self.progress = 0.0;
+    self.ringView.backgroundColor = self.lineColor;
+    self.maskLayer.strokeEnd = 0.0;
 }
 
 @end

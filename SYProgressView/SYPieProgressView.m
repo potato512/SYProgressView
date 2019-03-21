@@ -34,12 +34,14 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    if (self.animationText) {
-        [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
-            label.text = [NSString stringWithFormat:@"%.0f%%", value];
-        }];
-    } else {
-        self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+    if (!self.label.hidden) {
+        if (self.animationText) {
+            [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
+                label.text = [NSString stringWithFormat:@"%.0f%%", value];
+            }];
+        } else {
+            self.label.text = [NSString stringWithFormat:@"%.0f%%", (self.progress * 100.0)];
+        }
     }
     
     self.lastProgress = (self.progress * 100.0);

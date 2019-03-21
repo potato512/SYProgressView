@@ -22,6 +22,7 @@
         _defaultColor = [UIColor lightGrayColor];
         _lineColor = [UIColor blackColor];
         _lineWidth = 1.0;
+        _isAnimation = NO;
     }
     return self;
 }

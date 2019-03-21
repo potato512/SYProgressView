@@ -11,6 +11,7 @@
 #import "SYWaveProgressView.h"
 #import "SYPieProgressView.h"
 #import "SYRingProgressView.h"
+#import "ChartView.h"
 
 @interface ViewController ()
 
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) SYWaveProgressView *waveProgress;
 @property (nonatomic, strong) SYPieProgressView *pieProgress;
 @property (nonatomic, strong) SYRingProgressView *ringProgress;
+
+@property (nonatomic, strong) ChartView *chartView;
 
 @property (nonatomic, strong) UISlider *sliderView;
 
@@ -107,17 +110,28 @@
     
     self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
     [self.view addSubview:self.ringProgress];
-    self.ringProgress.backgroundColor = [UIColor clearColor];
-    self.ringProgress.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
-    self.ringProgress.lineWidth = 10;
+    self.ringProgress.backgroundColor = UIColor.greenColor;
+    self.ringProgress.lineColor = UIColor.blueColor;// [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress.lineWidth = 12;
     self.ringProgress.progressColor = [UIColor redColor];
-    self.ringProgress.defaultColor = [UIColor yellowColor];
-    self.ringProgress.label.textColor = [UIColor greenColor];
-    self.ringProgress.label.hidden = NO;
-    self.ringProgress.reduceAngle = 50;
+    self.ringProgress.lineRound = YES;
+//    self.ringProgress.isAnimation = YES;
+    self.ringProgress.colorsGradient = @[UIColorWithHexadecimalString(@"#2B5FD5"), UIColorWithHexadecimalString(@"0x56DDEC")];
+    self.ringProgress.showGradient = YES;
+//    self.ringProgress.isClockwise = NO;
+//    self.ringProgress.startAngle = -90.0;
+//    self.ringProgress.endAngle = 360.0;
     [self.ringProgress initializeProgress];
     
     currentView = self.ringProgress;
+    
+    self.chartView = [[ChartView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
+    [self.view addSubview:self.chartView];
+    self.chartView.progress = 0.3;
+    
+    
+    
+    currentView = self.chartView;
     
     self.sliderView = [[UISlider alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), (self.view.frame.size.width - currentView.frame.origin.x * 2), 10)];
     [self.view addSubview:self.sliderView];
@@ -134,6 +148,8 @@
     self.waveProgress.progress = self.progress;
     self.pieProgress.progress = self.progress;
     self.ringProgress.progress = self.progress;
+    
+    self.chartView.progress = self.progress;
 }
 
 #pragma mark - 定时器

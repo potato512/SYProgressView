@@ -35,6 +35,9 @@
 /// 间隔大小（默认0.0）
 @property (nonatomic, assign) CGFloat spaceWidth;
 
+/// 是否动效变换（默认否）
+@property (nonatomic, assign) BOOL isAnimation;
+
 /**
  初始化（设置属性后，最后调用）
  */

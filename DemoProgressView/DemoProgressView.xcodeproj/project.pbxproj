@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A78DC1E1224255100061E6A5 /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DC1E0224255100061E6A5 /* ChartView.m */; };
 		A7B0BC66219D49ED0025014E /* SYRingProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B0BC65219D49ED0025014E /* SYRingProgressView.m */; };
 		A7B0BC69219D4A070025014E /* SYPieProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B0BC68219D4A070025014E /* SYPieProgressView.m */; };
 		A7BD15D0219CFBFD001A89B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD15CF219CFBFD001A89B4 /* AppDelegate.m */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A78DC1DF224255100061E6A5 /* ChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChartView.h; sourceTree = "<group>"; };
+		A78DC1E0224255100061E6A5 /* ChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChartView.m; sourceTree = "<group>"; };
 		A7B0BC64219D49ED0025014E /* SYRingProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYRingProgressView.h; sourceTree = "<group>"; };
 		A7B0BC65219D49ED0025014E /* SYRingProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYRingProgressView.m; sourceTree = "<group>"; };
 		A7B0BC67219D4A070025014E /* SYPieProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYPieProgressView.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				A7BD15CF219CFBFD001A89B4 /* AppDelegate.m */,
 				A7BD15D1219CFBFD001A89B4 /* ViewController.h */,
 				A7BD15D2219CFBFD001A89B4 /* ViewController.m */,
+				A78DC1DF224255100061E6A5 /* ChartView.h */,
+				A78DC1E0224255100061E6A5 /* ChartView.m */,
 				A7BD1601219CFD04001A89B4 /* SYProgressView */,
 				A7BD1600219CFC12001A89B4 /* Supporting Files */,
 			);
@@ -316,6 +321,7 @@
 				A7B0BC66219D49ED0025014E /* SYRingProgressView.m in Sources */,
 				A7BD15D0219CFBFD001A89B4 /* AppDelegate.m in Sources */,
 				A7BD1607219D0209001A89B4 /* SYLineProgressView.m in Sources */,
+				A78DC1E1224255100061E6A5 /* ChartView.m in Sources */,
 				A7BD160A219D3B21001A89B4 /* SYWaveProgressView.m in Sources */,
 				A7BD1604219CFD4D001A89B4 /* SYProgressView.m in Sources */,
 			);
