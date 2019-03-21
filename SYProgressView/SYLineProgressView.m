@@ -137,7 +137,8 @@
             self.progressView.frame = CGRectMake(origin, origin, width, height);
         }
     }
-    //
+
+    
     if (!self.label.hidden) {
         if (self.animationText) {
             [self.label animationTextStartValue:self.lastProgress endValue:(self.progress * 100.0) duration:0.3 complete:^(UILabel *label, CGFloat value) {
