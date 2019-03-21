@@ -15,9 +15,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.label.hidden = YES;
-        
+        //
         self.layer.masksToBounds = YES;
-        
+        //
         _progressColor = [UIColor blueColor];
         _defaultColor = [UIColor lightGrayColor];
         _lineColor = [UIColor blackColor];
