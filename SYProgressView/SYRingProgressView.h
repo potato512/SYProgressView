@@ -16,7 +16,7 @@
 
 /// 起始点（角度-360.0~360.0，默认-90.0）
 @property (nonatomic, assign) CGFloat startAngle;
-/// 结束点（角度-360.0~360.0，默认360.0）
+/// 结束点（角度-360.0~360.0，默认270.0）
 @property (nonatomic, assign) CGFloat endAngle;
 /// 是否顺时针（默认YES顺序针）
 @property (nonatomic, assign) BOOL isClockwise;

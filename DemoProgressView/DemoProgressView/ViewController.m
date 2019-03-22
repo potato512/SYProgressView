@@ -110,8 +110,8 @@
     
     self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
     [self.view addSubview:self.ringProgress];
-    self.ringProgress.backgroundColor = UIColor.greenColor;
-    self.ringProgress.lineColor = UIColor.blueColor;// [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress.backgroundColor = UIColor.clearColor;
+    self.ringProgress.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
     self.ringProgress.lineWidth = 12;
     self.ringProgress.progressColor = [UIColor redColor];
     self.ringProgress.lineRound = YES;
@@ -122,6 +122,8 @@
 //    self.ringProgress.startAngle = -90.0;
 //    self.ringProgress.endAngle = 360.0;
     [self.ringProgress initializeProgress];
+    [self performSelector:@selector(ringShow) withObject:nil afterDelay:1.0];
+    
     
     currentView = self.ringProgress;
     
@@ -150,6 +152,17 @@
     self.ringProgress.progress = self.progress;
     
     self.chartView.progress = self.progress;
+}
+
+static CGFloat ring = 0.2;
+- (void)ringShow
+{
+    if (ring > 1.0) {
+        return;
+    }
+    self.ringProgress.progress = ring;
+    ring += 0.1;
+    [self performSelector:@selector(ringShow) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark - 定时器

@@ -35,7 +35,7 @@
         //
         self.isClockwise = YES;
         self.startAngle = -90.0;
-        self.endAngle = 360.0;
+        self.endAngle = 270.0;
     }
     
     return self;
@@ -84,10 +84,11 @@
     _progress = progress;
     //
     if (self.isAnimation) {
+        self.maskLayer.strokeEnd = 0.0;
         [CATransaction begin];
         [CATransaction setDisableActions:NO];
         [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-        [CATransaction setAnimationDuration:0.03];
+        [CATransaction setAnimationDuration:0.3];
         self.maskLayer.strokeEnd = _progress;
         [CATransaction commit];
     } else {
