@@ -109,9 +109,18 @@ self.ringProgress.progressColor = [UIColor redColor];
 self.ringProgress.lineRound = YES;
 self.ringProgress.colorsGradient = @[UIColor.brownColor, UIColor.whiteColor];
 self.ringProgress.showGradient = YES;
-self.ringProgress.isClockwise = NO;
+// 满环，顺时针
+self.ringProgress.isClockwise = YES;
 self.ringProgress.startAngle = -90.0;
-self.ringProgress.endAngle = 360.0;
+self.ringProgress.endAngle = 270.0;
+// 满环，逆时针
+self.ringProgress.isClockwise = NO;
+self.ringProgress.startAngle = 270.0;
+self.ringProgress.endAngle = -90.0;
+// 缺口环，顺时针
+self.ringProgress.isClockwise = YES;
+self.ringProgress.startAngle = -20.0;
+self.ringProgress.endAngle = 200.0;
 
 // 初始化
 [self.ringProgress initializeProgress];
@@ -122,6 +131,10 @@ self.ringProgress.progress = self.progress;
 
 
 # 修改完善
+* 20190323
+* 版本号：1.1.3
+  * 环形进度修改完善
+
 * 20181129 20190321
   * 版本号：1.1.0 1.1.1
   * 新增属性

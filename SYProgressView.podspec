@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SYProgressView"
-  s.version      = "1.1.2"
+  s.version      = "1.1.3"
   s.summary      = "SYProgressView show the progress while change value."
   s.homepage     = "https://github.com/potato512/SYProgressView"
   s.license      = { :type => "MIT", :file => "LICENSE" }

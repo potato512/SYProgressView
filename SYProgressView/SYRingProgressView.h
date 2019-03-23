@@ -11,12 +11,14 @@
 @interface SYRingProgressView : SYProgressView
 
 /*
- defaultColor属性无效
+ 1 defaultColor属性无效
+ 2 绝对值startAngle + 绝对值endAngle = 360时，满环
+ 3 绝对值startAngle + 绝对值endAngle < 360时，缺口环，根据需要设置
  */
 
 /// 起始点（角度-360.0~360.0，默认-90.0）
 @property (nonatomic, assign) CGFloat startAngle;
-/// 结束点（角度-360.0~360.0，默认360.0）
+/// 结束点（角度-360.0~360.0，默认270.0）
 @property (nonatomic, assign) CGFloat endAngle;
 /// 是否顺时针（默认YES顺序针）
 @property (nonatomic, assign) BOOL isClockwise;

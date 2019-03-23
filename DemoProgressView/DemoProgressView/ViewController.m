@@ -19,9 +19,14 @@
 @property (nonatomic, assign) CGFloat progress;
 
 @property (nonatomic, strong) SYLineProgressView *lineProgress;
+@property (nonatomic, strong) SYLineProgressView *lineProgress2;
 @property (nonatomic, strong) SYWaveProgressView *waveProgress;
 @property (nonatomic, strong) SYPieProgressView *pieProgress;
 @property (nonatomic, strong) SYRingProgressView *ringProgress;
+@property (nonatomic, strong) SYRingProgressView *ringProgress2;
+@property (nonatomic, strong) SYRingProgressView *ringProgress3;
+@property (nonatomic, strong) SYRingProgressView *ringProgress4;
+@property (nonatomic, strong) SYRingProgressView *ringProgress5;
 
 @property (nonatomic, strong) ChartView *chartView;
 
@@ -59,25 +64,42 @@
 
 - (void)setUI
 {
-    self.lineProgress = [[SYLineProgressView alloc] initWithFrame:CGRectMake(20.0, 20.0, (self.view.frame.size.width - 40.0), 20)];
+    CGFloat originXY = 20.0;
+    
+    self.lineProgress = [[SYLineProgressView alloc] initWithFrame:CGRectMake(originXY, originXY, (self.view.frame.size.width - originXY * 2), 20)];
     [self.view addSubview:self.lineProgress];
     self.lineProgress.layer.cornerRadius = 10;
     self.lineProgress.lineWidth = 2.0;
     self.lineProgress.lineColor = [UIColor redColor];
-    self.lineProgress.progressColor = [UIColor redColor];
+    self.lineProgress.progressColor = [UIColor yellowColor];
     self.lineProgress.defaultColor = [UIColor colorWithWhite:0.0 alpha:0.2];
     self.lineProgress.label.textColor = [UIColor greenColor];
     self.lineProgress.label.hidden = NO;
     self.lineProgress.animationText = YES;
-    self.lineProgress.showGradient = YES;
-    self.lineProgress.colorsGradient = @[[UIColor greenColor], [UIColor redColor]];
-    self.lineProgress.showSpace = NO;
-    self.lineProgress.spaceWidth = 1.0;
     [self.lineProgress initializeProgress];
     
     UIView *currentView = self.lineProgress;
     
-    self.waveProgress = [[SYWaveProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 120.0, 120.0)];
+    self.lineProgress2 = [[SYLineProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), currentView.frame.size.width, currentView.frame.size.height)];
+    [self.view addSubview:self.lineProgress2];
+    self.lineProgress2.layer.cornerRadius = 10;
+    self.lineProgress2.lineWidth = 2.0;
+    self.lineProgress2.lineColor = [UIColor redColor];
+    self.lineProgress2.progressColor = [UIColor redColor];
+    self.lineProgress2.defaultColor = [UIColor colorWithWhite:0.0 alpha:0.2];
+    self.lineProgress2.label.textColor = [UIColor greenColor];
+    self.lineProgress2.label.hidden = NO;
+    self.lineProgress2.animationText = YES;
+    self.lineProgress2.showGradient = YES;
+    self.lineProgress2.colorsGradient = @[[UIColor greenColor], [UIColor redColor]];
+    self.lineProgress2.showSpace = NO;
+    self.lineProgress2.spaceWidth = 1.0;
+    [self.lineProgress2 initializeProgress];
+    
+    currentView = self.lineProgress2;
+    
+    
+    self.waveProgress = [[SYWaveProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), 120.0, 120.0)];
     [self.view addSubview:self.waveProgress];
     self.waveProgress.layer.cornerRadius = 60.0;
     self.waveProgress.backgroundColor = [UIColor greenColor];
@@ -92,7 +114,7 @@
     
     currentView = self.waveProgress;
     
-    self.pieProgress = [[SYPieProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
+    self.pieProgress = [[SYPieProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), 100.0, 100.0)];
     [self.view addSubview:self.pieProgress];
     self.pieProgress.backgroundColor = [UIColor greenColor];
     self.pieProgress.lineColor = [UIColor purpleColor];
@@ -108,32 +130,90 @@
     
     currentView = self.pieProgress;
     
-    self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
+    //
+    CGFloat sizeRing = (self.view.frame.size.width - originXY * 5) / 4;
+    
+    self.ringProgress = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), sizeRing, sizeRing)];
     [self.view addSubview:self.ringProgress];
-    self.ringProgress.backgroundColor = UIColor.greenColor;
-    self.ringProgress.lineColor = UIColor.blueColor;// [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress.backgroundColor = UIColor.clearColor;
+    self.ringProgress.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
     self.ringProgress.lineWidth = 12;
-    self.ringProgress.progressColor = [UIColor redColor];
     self.ringProgress.lineRound = YES;
-//    self.ringProgress.isAnimation = YES;
+    self.ringProgress.isAnimation = YES;
     self.ringProgress.colorsGradient = @[UIColorWithHexadecimalString(@"#2B5FD5"), UIColorWithHexadecimalString(@"0x56DDEC")];
     self.ringProgress.showGradient = YES;
-//    self.ringProgress.isClockwise = NO;
-//    self.ringProgress.startAngle = -90.0;
-//    self.ringProgress.endAngle = 360.0;
     [self.ringProgress initializeProgress];
+//    [self performSelector:@selector(ringShow) withObject:nil afterDelay:1.0];
+    currentView = self.ringProgress;
+    //
+    self.ringProgress2 = [[SYRingProgressView alloc] initWithFrame:CGRectMake((currentView.frame.origin.x + currentView.frame.size.width + originXY), currentView.frame.origin.y, sizeRing, sizeRing)];
+    [self.view addSubview:self.ringProgress2];
+    self.ringProgress2.backgroundColor = UIColor.clearColor;
+    self.ringProgress2.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress2.lineWidth = 12;
+    self.ringProgress2.lineRound = YES;
+    self.ringProgress2.isAnimation = YES;
+    self.ringProgress2.colorsGradient = @[UIColorWithHexadecimalString(@"#2B5FD5"), UIColorWithHexadecimalString(@"0x56DDEC")];
+    self.ringProgress2.showGradient = YES;
+    self.ringProgress2.isClockwise = NO;
+    self.ringProgress2.startAngle = 270;
+    self.ringProgress2.endAngle = -90.0;
+    [self.ringProgress2 initializeProgress];
+    currentView = self.ringProgress2;
+    //
+    self.ringProgress3 = [[SYRingProgressView alloc] initWithFrame:CGRectMake((currentView.frame.origin.x + currentView.frame.size.width + originXY), currentView.frame.origin.y, sizeRing, sizeRing)];
+    [self.view addSubview:self.ringProgress3];
+    self.ringProgress3.backgroundColor = UIColor.clearColor;
+    self.ringProgress3.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress3.lineWidth = 12;
+    self.ringProgress3.lineRound = YES;
+    self.ringProgress3.isAnimation = YES;
+    self.ringProgress3.colorsGradient = @[UIColorWithHexadecimalString(@"#2B5FD5"), UIColorWithHexadecimalString(@"0x56DDEC")];
+    self.ringProgress3.showGradient = YES;
+    self.ringProgress3.startAngle = -20.0;
+    self.ringProgress3.endAngle = 200.0;
+    [self.ringProgress3 initializeProgress];
+    currentView = self.ringProgress3;
+    //
+    self.ringProgress4 = [[SYRingProgressView alloc] initWithFrame:CGRectMake((currentView.frame.origin.x + currentView.frame.size.width + originXY), currentView.frame.origin.y, sizeRing, sizeRing)];
+    [self.view addSubview:self.ringProgress4];
+    self.ringProgress4.backgroundColor = UIColor.clearColor;
+    self.ringProgress4.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress4.lineWidth = 12;
+    self.ringProgress4.lineRound = YES;
+    self.ringProgress4.isAnimation = YES;
+    self.ringProgress4.colorsGradient = @[UIColorWithHexadecimalString(@"#2B5FD5"), UIColorWithHexadecimalString(@"0x56DDEC")];
+    self.ringProgress4.showGradient = YES;
+//    self.ringProgress4.isClockwise = NO;
+    self.ringProgress4.startAngle = -220.0;
+    self.ringProgress4.endAngle = 40.0;
+    [self.ringProgress4 initializeProgress];
     
     currentView = self.ringProgress;
     
-    self.chartView = [[ChartView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), 100.0, 100.0)];
-    [self.view addSubview:self.chartView];
-    self.chartView.progress = 0.3;
+    //
+    self.ringProgress5 = [[SYRingProgressView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), 100.0, 100.0)];
+    [self.view addSubview:self.ringProgress5];
+    self.ringProgress5.backgroundColor = UIColor.clearColor;
+    self.ringProgress5.lineColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+    self.ringProgress5.lineWidth = 12;
+    self.ringProgress5.lineRound = YES;
+    self.ringProgress5.isAnimation = YES;
+    self.ringProgress5.progressColor = UIColor.purpleColor;
+    [self.ringProgress5 initializeProgress];
+    
+    currentView = self.ringProgress5;
     
     
+//    self.chartView = [[ChartView alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), 100.0, 100.0)];
+//    [self.view addSubview:self.chartView];
+//    self.chartView.progress = 0.3;
+//
+//
+//
+//    currentView = self.chartView;
     
-    currentView = self.chartView;
-    
-    self.sliderView = [[UISlider alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + 20.0), (self.view.frame.size.width - currentView.frame.origin.x * 2), 10)];
+    self.sliderView = [[UISlider alloc] initWithFrame:CGRectMake(currentView.frame.origin.x, (currentView.frame.origin.y + currentView.frame.size.height + originXY), (self.view.frame.size.width - currentView.frame.origin.x * 2), 10)];
     [self.view addSubview:self.sliderView];
     self.sliderView.value = 0.0;
     [self.sliderView addTarget:self action:@selector(sliderClick:) forControlEvents:UIControlEventValueChanged];
@@ -145,11 +225,27 @@
     
     self.progress = value;
     self.lineProgress.progress = self.progress;
+    self.lineProgress2.progress = self.progress;
     self.waveProgress.progress = self.progress;
     self.pieProgress.progress = self.progress;
     self.ringProgress.progress = self.progress;
+    self.ringProgress2.progress = self.progress;
+    self.ringProgress3.progress = self.progress;
+    self.ringProgress4.progress = self.progress;
+    self.ringProgress5.progress = self.progress;
     
     self.chartView.progress = self.progress;
+}
+
+static CGFloat ring = 0.2;
+- (void)ringShow
+{
+    if (ring > 1.0) {
+        return;
+    }
+    self.ringProgress.progress = ring;
+    ring += 0.1;
+    [self performSelector:@selector(ringShow) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark - 定时器
@@ -166,9 +262,14 @@
 {
     self.progress = 0.0;
     self.lineProgress.progress = self.progress;
+    self.lineProgress2.progress = self.progress;
     self.waveProgress.progress = self.progress;
     self.pieProgress.progress = self.progress;
     self.ringProgress.progress = self.progress;
+    self.ringProgress2.progress = self.progress;
+    self.ringProgress3.progress = self.progress;
+    self.ringProgress4.progress = self.progress;
+    self.ringProgress5.progress = self.progress;
     
     [self.timer setFireDate:[NSDate distantPast]];
 }
@@ -189,9 +290,15 @@
     NSLog(@"2 progress = %f", self.progress);
     self.sliderView.value = self.progress;
     self.lineProgress.progress = self.progress;
+    self.lineProgress2.progress = self.progress;
     self.waveProgress.progress = self.progress;
     self.pieProgress.progress = self.progress;
     self.ringProgress.progress = self.progress;
+    self.ringProgress2.progress = self.progress;
+    self.ringProgress3.progress = self.progress;
+    self.ringProgress4.progress = self.progress;
+    self.ringProgress5.progress = self.progress;
+    
     if (self.progress >= 1.0) {
         [self stopTimer];
         return;
