@@ -39,7 +39,7 @@
 @property (nonatomic, assign) BOOL isAnimation;
 
 /**
- 初始化（设置属性后，最后调用）
+ 初始化（设置属性后，最后必须调用一次）
  */
 - (void)initializeProgress;
 
